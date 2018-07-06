@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <Counter></Counter>
+  <button @click="add">+</button>
+  <button @click="minus">-</button>
+</div>
+<script>
+  const Counter={
+    template:`
+    <div>{{count}}</div>
+    `,
+    computed:{
+      count(){
+        return this.$store.state.count;
+      }
+    },
+    methods:{
+
+    }
+  };
+  const store=new Vuex.Store({
+    state:{
+      count:1
+    },
+    mutations:{
+      increment(state){
+        state.count++;
+      },
+      decrement(state){
+        state.count--;
+      }
+    }
+  });
+  new Vue({
+    el:'#app',
+    store,
+    data:{
+      msg:'hello vuex'
+    },
+    methods:{
+      add(){
+        this.$store.commit('increment');
+      },
+      minus(){
+        this.$store.commit('decrement');
+      }
+    },
+    components:{
+      Counter
+    }
+  });
+</script>
+</body>
+</html>

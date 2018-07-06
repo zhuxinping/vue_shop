@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="../node_modules/vuex/dist/vuex.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <Counter></Counter>
+  <button @click="add">+</button>
+  <button @click="minus">-</button>
+</div>
+<script>
+  const Counter={
+    template:`
+    <div>{{count}}{{NumDesc}}</div>
+    `,
+    computed:{
+      count(){
+        return this.$store.state.count;
+      },
+      NumDesc(){
+        return this.$store.getters.numDesc
+      }
+    },
+    methods:{
+
+    }
+  };
+  const store=new Vuex.Store({
+    state:{
+      count:1
+    },
+    getters:{
+      numDesc(state){
+        return '我是数字'+state.count
+      }
+    },
+    mutations:{
+      increment(state,num){
+        state.count=num;
+      },
+      decrement(state){
+        state.count--;
+      }
+    },
+    actions:{
+      incrementAction(context,num){
+        context.commit("increment",num);
+      }
+    }
+  });
+  new Vue({
+    el:'#app',
+    store,
+    data:{
+      msg:'hello vuex'
+    },
+    methods:{
+      add(){
+        //this.$store.commit('increment');
+        this.$store.dispatch("incrementAction",5);
+      },
+      minus(){
+        //this.$store.commit('decrement');
+      }
+    },
+    components:{
+      Counter
+    }
+  });
+</script>
+</body>
+</html>
